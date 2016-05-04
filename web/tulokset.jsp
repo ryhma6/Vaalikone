@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : tulokset
     Created on : 14-Apr-2015, 18:26:35
     Author     : Jonne
@@ -29,12 +29,13 @@
                 Integer jarjestysnumero = (Integer) request.getAttribute("jarjestysnumero");
 
                 if (jarjestysnumero > 0) {%>
-            <a href="Vaalikone?func=haeEhdokas&numero=<%= jarjestysnumero - 1%>">Edellinen ehdokas</a>&nbsp; 
+            <a href="Vaalikone?func=haeEhdokas&numero=<%= jarjestysnumero - 1%>">Edellinen ehdokas</a>&nbsp;
             <% }
                 if (jarjestysnumero < 18) {%>
             <a href="Vaalikone?func=haeEhdokas&numero=<%= jarjestysnumero + 1%>">Seuraavaksi paras ehdokas</a>
-            <% }
-
+            <% } %>
+            <a href="index.html">Takaisin alkuun</a>
+            <%
                 for (Ehdokkaat seParasEhdokas : parhaatEhdokkaat) {
             %>
 

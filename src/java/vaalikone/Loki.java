@@ -16,12 +16,12 @@ import java.util.logging.SimpleFormatter;
  * @author Jonne
  */
 public class Loki {
-    
+
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
     private static FileHandler fh = null;
-    
+
     /**
-     * Luo uusi java logger-instanssi 
+     * Luo uusi java logger-instanssi
      */
     public static void init(){
         try {
@@ -32,6 +32,6 @@ public class Loki {
         Logger l = Logger.getLogger("");
         fh.setFormatter(new SimpleFormatter());
         l.addHandler(fh);
-        l.setLevel(Level.CONFIG);
+        l.setLevel(Level.FINE);
     }
 }

@@ -1,76 +1,11 @@
-Wed May 04 09:17:14 EEST 2016 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
-Wed May 04 09:17:14 EEST 2016 Thread[DRDAConnThread_3,5,main] Cleanup action starting
-java.sql.SQLException: Database 'Vaali-Db' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
-	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
-	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
-Caused by: java.sql.SQLException: Database 'Vaali-Db' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	... 19 more
-============= begin nested exception, level (1) ===========
-java.sql.SQLException: Database 'Vaali-Db' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
-	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
-	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
-============= end nested exception, level (1) ===========
-Cleanup action completed
-Wed May 04 09:17:14 EEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = Vaali-Db), (DRDAID = {1}), Database 'Vaali-Db' not found.
+Wed May 04 14:18:03 EEST 2016 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Wed May 04 09:20:29 EEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0154-7a69-cb79-ffffd9a55909 
-on database directory P:\UserData\Vaalikone\vaalikone\Vaali-Db\Vaali-Db  with class loader sun.misc.Launcher$AppClassLoader@47858e 
-Loaded from file:/C:/Program%20Files/glassfish-4.0/javadb/lib/derby.jar
+Wed May 04 14:18:31 EEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0154-7b7d-34dc-ffff9017e8d4 
+on database directory E:\Vaalikone5\Vaalikone\Vaali-Db\Vaali-Db  with class loader sun.misc.Launcher$AppClassLoader@5e2de80c 
+Loaded from file:/E:/Java/glassfish/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_45-b18
-user.dir=C:\Program Files\glassfish-4.0\javadb
-derby.system.home=P:\UserData\Vaalikone\vaalikone\Vaali-Db
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Wed May 04 09:20:36 EEST 2016:
-Shutting down instance a816c00e-0154-7a69-cb79-ffffd9a55909 on database directory P:\UserData\Vaalikone\vaalikone\Vaali-Db\Vaali-Db with class loader sun.misc.Launcher$AppClassLoader@47858e 
-Wed May 04 09:20:36 EEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = Vaali-Db), (DRDAID = {3}), Database 'Vaali-Db' shutdown.
-----------------------------------------------------------------
-Wed May 04 09:20:40 EEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance 45b300a8-0154-7a69-cb79-ffffd9a55909 
-on database directory P:\UserData\Vaalikone\vaalikone\Vaali-Db\Vaali-Db  with class loader sun.misc.Launcher$AppClassLoader@47858e 
-Loaded from file:/C:/Program%20Files/glassfish-4.0/javadb/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_45-b18
-user.dir=C:\Program Files\glassfish-4.0\javadb
-derby.system.home=P:\UserData\Vaalikone\vaalikone\Vaali-Db
+java.runtime.version=1.8.0_73-b02
+user.dir=E:\Java\glassfish\javadb
+derby.system.home=E:\Vaalikone5\Vaalikone\Vaali-Db
 Database Class Loader started - derby.database.classpath=''

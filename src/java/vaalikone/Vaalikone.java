@@ -35,12 +35,12 @@ public class Vaalikone extends HttpServlet {
     public static Logger getLogger() {
         return logger;
     }
-    
+
     private Kayttaja usr;
     private HttpSession session;
     private EntityManager em;
     private String strFunc;
-    
+
     private Kysely kysely = new Kysely();
 
     /**
@@ -83,6 +83,8 @@ public class Vaalikone extends HttpServlet {
         if (strFunc == null) {
             //Kysely -moduuli hoitaa peruskäyttäjän kyselyn
             kysely.ajaModuuli(request, response, this);
+        } else if (strFunc.equals("ehdkys")) {
+            logger.log(Level.FINE, "Painettu ehdokaskysely -nappia");
         }
     }
 
@@ -97,7 +99,7 @@ public class Vaalikone extends HttpServlet {
         if (kVastaus - eVastaus == 2 || kVastaus - eVastaus == -2 || kVastaus - eVastaus == 3 || kVastaus - eVastaus == -3) {
             pisteet = 1;
         }
-        
+
         //if (kVastaus - eVastaus == 4 || kVastaus - eVastaus == -4) pisteet = 0;
         return pisteet;
 

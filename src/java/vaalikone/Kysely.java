@@ -27,10 +27,10 @@ public class Kysely implements Moduuli {
     private Kayttaja usr;
     private EntityManager em;
     private Logger logger;
-    
+
     @Override
     public void ajaModuuli(HttpServletRequest request, HttpServletResponse response, Vaalikone vaalikone) throws ServletException, IOException {
-        
+
         int kysymys_id;
 
         //hae parametrinä tuotu edellisen kysymyksen nro
@@ -41,8 +41,8 @@ public class Kysely implements Moduuli {
 
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
-        logger = Vaalikone.getLogger();
-        
+        logger = Logger.getLogger(Loki.class.getName());
+
         // Jos kysymyksen numero (kysId) on asetettu, haetaan tuo kysymys
         // muuten haetaan kysnro 1
         if (strKysymys_id == null) {
@@ -108,7 +108,7 @@ public class Kysely implements Moduuli {
                     //hae käyttäjän ehdokaskohtaiset pisteet
                     pisteet = usr.getPisteet(i);
 
-                    //laske oman ja ehdokkaan vastauksen perusteella pisteet 
+                    //laske oman ja ehdokkaan vastauksen perusteella pisteet
                     pisteet += laskePisteet(usr.getVastaus(i), eVastaus.getVastaus());
 
                     logger.log(Level.INFO, "eID: {0} / k: {1} / kV: {2} / eV: {3} / p: {4}", new Object[]{i, eVastaus.getVastauksetPK().getKysymysId(), usr.getVastaus(i), eVastaus.getVastaus(), pisteet});
@@ -120,7 +120,7 @@ public class Kysely implements Moduuli {
             //siirrytään hakemaan paras ehdokas
             vaalikone.setStrFunc("haeEhdokas");
         }
-        
+
         //jos func-arvo on haeEhdokas, haetaan haluttu henkilö käyttäjälle sopivimmista ehdokkaista
         if ("haeEhdokas".equals(vaalikone.getStrFunc())) {
             //luetaan url-parametristä "top-listan järjestysnumero". Jos ei määritelty, haetaan PARAS vaihtoehto.
@@ -149,7 +149,7 @@ public class Kysely implements Moduuli {
             q = em.createQuery(
                     "SELECT k FROM Kysymykset k");
             List<Kysymykset> kaikkiKysymykset = q.getResultList();
-            
+
             //ohjaa tiedot tulosten esityssivulle
             request.setAttribute("kaikkiKysymykset", kaikkiKysymykset);
             request.setAttribute("kayttajanVastaukset", usr.getVastausLista());
