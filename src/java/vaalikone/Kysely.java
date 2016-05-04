@@ -20,7 +20,7 @@ import persist.Vastaukset;
 
 /**
  *
- * @author vivesanto
+ * @author Tomi Vesanen
  */
 public class Kysely implements Moduuli {
 
@@ -39,6 +39,7 @@ public class Kysely implements Moduuli {
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strVastaus = request.getParameter("vastaus");
 
+        // Haetaan Vaalikoneeseen tallennetut Käyttäjä, EntityManager ja Logger
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());

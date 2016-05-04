@@ -42,6 +42,8 @@ public class Vaalikone extends HttpServlet {
     private String strFunc;
 
     private Kysely kysely = new Kysely();
+    private EhdokasKysely ehdkysely = new EhdokasKysely();
+    private MuutaKyselya muutakysely = new MuutaKyselya();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -82,9 +84,14 @@ public class Vaalikone extends HttpServlet {
 
         if (strFunc == null) {
             //Kysely -moduuli hoitaa peruskäyttäjän kyselyn
+            logger.log(Level.FINE, "Painettu perus kysely -nappia");
             kysely.ajaModuuli(request, response, this);
         } else if (strFunc.equals("ehdkys")) {
             logger.log(Level.FINE, "Painettu ehdokaskysely -nappia");
+            ehdkysely.ajaModuuli(request, response, this);
+        } else if (strFunc.equals("muutakysely")) {
+            logger.log(Level.FINE, "Painettu kyselyn muutos -nappia");
+            muutakysely.ajaModuuli(request, response, this);
         }
     }
 

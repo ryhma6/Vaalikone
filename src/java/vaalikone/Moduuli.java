@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author vivesanto
+ * @author Tomi Vesanen
  */
 public interface Moduuli {
     /**
