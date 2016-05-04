@@ -8,7 +8,6 @@
 *.war
 *.ear
 
-nbproject/
 build/
 Vaali-Db/
 
