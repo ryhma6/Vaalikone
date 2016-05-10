@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Kayttaja implements Serializable {
     private final List<Integer> vastaus = new ArrayList<>(20);
     List<Tuple<Integer, Integer>> pisteet = new ArrayList<>(20);
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
+    private HttpSession sessionRef = null;
 
     /**
      * Kayttaja-olioon tallennetaan vaalikoneen käyttäjän tietoja.
@@ -117,5 +119,13 @@ public class Kayttaja implements Serializable {
             return o1.pisteet.compareTo(o2.pisteet);
         }
     };
+
+    public HttpSession getSessionRef() {
+        return sessionRef;
+    }
+
+    public void setSessionRef(HttpSession sessionRef) {
+        this.sessionRef = sessionRef;
+    }
 
 }
