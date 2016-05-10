@@ -29,6 +29,10 @@ public class MuutaKyselya implements Moduuli {
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());
+        
+        request.getRequestDispatcher("/muuta.jsp")
+                        .forward(request, response);
+        
     }
 
 }
