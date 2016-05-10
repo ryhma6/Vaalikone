@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -95,23 +95,6 @@ public class Vaalikone extends HttpServlet {
         }
     }
 
-    private Integer laskePisteet(Integer kVastaus, Integer eVastaus) {
-        int pisteet = 0;
-        if (kVastaus - eVastaus == 0) {
-            pisteet = 3;
-        }
-        if (kVastaus - eVastaus == 1 || kVastaus - eVastaus == -1) {
-            pisteet = 2;
-        }
-        if (kVastaus - eVastaus == 2 || kVastaus - eVastaus == -2 || kVastaus - eVastaus == 3 || kVastaus - eVastaus == -3) {
-            pisteet = 1;
-        }
-
-        //if (kVastaus - eVastaus == 4 || kVastaus - eVastaus == -4) pisteet = 0;
-        return pisteet;
-
-    }
-
     //<editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -183,4 +166,18 @@ public class Vaalikone extends HttpServlet {
         this.strFunc = strFunc;
     }
 
+    public static Long getLastId(Object vaalikoneObj, String tableName) {
+        Vaalikone vaalikone = Vaalikone.class.cast(vaalikoneObj);
+        EntityManager em = vaalikone.getEm();
+        Query qT = em.createQuery("SELECT COUNT(t) FROM " + tableName + " t");
+        Long count = (Long)qT.getSingleResult();
+
+        // Sulje tietokantayhteys
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        em.close();
+
+        return count;
+    }
 }

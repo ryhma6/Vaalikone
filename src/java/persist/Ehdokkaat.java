@@ -247,5 +247,5 @@ public class Ehdokkaat implements Serializable {
         return "persist.Ehdokkaat[ ehdokasId=" + ehdokasId + " ]";
     }
     private static final Logger LOG = Logger.getLogger(Ehdokkaat.class.getName());
-    
+
 }

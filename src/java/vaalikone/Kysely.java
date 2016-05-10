@@ -69,6 +69,7 @@ public class Kysely implements Moduuli {
                 //Lue haluttu kysymys listaan
                 List<Kysymykset> kysymysList = q.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
+                request.setAttribute("vaalikone", vaalikone);
                 request.getRequestDispatcher("/vastaus.jsp")
                         .forward(request, response);
 

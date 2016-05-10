@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : vastaus
     Created on : 09-Apr-2015, 12:50:47
     Author     : Jonne
@@ -23,11 +23,12 @@
 
 
  <%
-            @SuppressWarnings("unchecked") 
+            @SuppressWarnings("unchecked")
             List<Kysymykset> kysymykset = (List<Kysymykset>)request.getAttribute("kysymykset");
+            Object vaalikone = request.getAttribute("vaalikone");
             for (Kysymykset kysymys : kysymykset) { %>
             <div class="kysymys">
-                <%= kysymys.getKysymysId() %> / 19 <br>
+                <%= kysymys.getKysymysId() %> / <%= Vaalikone.getLastId(vaalikone, "Kysymykset") %> <br>
                 <%= kysymys.getKysymys() %>
                  </div>
                 <form action="Vaalikone" id="vastausformi">
@@ -41,7 +42,7 @@
                 </form>
                     <div class="kysymys"><small>1=Täysin eri mieltä 2=Osittain eri mieltä 3=En osaa sanoa, 4=Osittain samaa mieltä 5=Täysin samaa mieltä</small></div>
                 <%
-            } 
+            }
         %>
 
 
