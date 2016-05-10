@@ -8,6 +8,7 @@ package vaalikone;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +31,19 @@ public class MuutaKyselya implements Moduuli {
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());
         
-        request.getRequestDispatcher("/muuta.jsp")
+                //hae parametrina tuotu edellisen kysymyksen vastaus
+        String strUusikysymys = request.getParameter("uusikyssari");
+        
+                    if (strUusikysymys == null || strUusikysymys == "" || strUusikysymys == " ") {
+                          request.getRequestDispatcher("/muuta.jsp")
                         .forward(request, response);
+                        }
+                    
+                    else{
+                request.getRequestDispatcher("/index.html")
+                .forward(request, response);
+                    }
+        
         
     }
 

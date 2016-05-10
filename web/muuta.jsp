@@ -16,6 +16,7 @@
         
         <form action="Vaalikone" id="uusikysymys">
             <input type="text" name="uusikyssari" maxlength="100">
+            <input type="hidden" name="func" value="muutakysely">
             <input type="submit" value="Lisää uusi kysymys!">
         </form>
         
