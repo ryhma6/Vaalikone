@@ -45,7 +45,8 @@ public class MuutaKyselya implements Moduuli {
                     .forward(request, response);
         } else {
             try {
-                Kysymykset kys = new Kysymykset(20);
+             //KYSYMESTEN MÄÄRÄN ASETTAMINN TÄHÄN ->
+                Kysymykset kys = new Kysymykset(24);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();
                 em.persist(kys);
@@ -73,7 +74,7 @@ public class MuutaKyselya implements Moduuli {
             }
 
             request.getRequestDispatcher(
-                    "/index.html")
+                    "/muuta_onnistui.jsp")
                     .forward(request, response);
         }
 

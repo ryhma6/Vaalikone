@@ -65,7 +65,7 @@ public class EhdokasKysely implements Moduuli {
         }
         
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-        if (kysymys_id < 20) {
+        if (kysymys_id < 25) {
             try {
                 //Hae haluttu kysymys tietokannasta
                 Query q = em.createQuery(

@@ -11,11 +11,11 @@
         <title>Muuta kyselyä</title>
         <link href="style.css" rel="stylesheet" type="text/css">
     <body>
-     <div id="container">
+     <div id="container" style="text-align:center;">
         <h1>Uusi kysymys</h1>
         
         <form action="Vaalikone" id="uusikysymys">
-            <input type="text" name="uusikyssari" maxlength="100">
+            <input type="text" name="uusikyssari" maxlength="100" width="300px"> <br/><br/>
             <input type="hidden" name="func" value="muutakysely">
             <input type="submit" value="Lisää uusi kysymys!">
         </form>

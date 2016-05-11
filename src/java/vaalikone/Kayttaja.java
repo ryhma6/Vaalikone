@@ -19,9 +19,11 @@ import javax.servlet.http.HttpSession;
  * @author Jonne
  */
 public class Kayttaja implements Serializable {
+    
 
-    private final List<Integer> vastaus = new ArrayList<>(20);
-    List<Tuple<Integer, Integer>> pisteet = new ArrayList<>(20);
+    
+    private final List<Integer> vastaus = new ArrayList<>(50);
+    List<Tuple<Integer, Integer>> pisteet = new ArrayList<>(50);
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
     private HttpSession sessionRef = null;
 
@@ -31,7 +33,7 @@ public class Kayttaja implements Serializable {
     public Kayttaja() {
 
         //täytelläänhän listat valmiiksi
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             this.vastaus.add(0);
             this.pisteet.add(new Tuple<>(0, 0));
         }
