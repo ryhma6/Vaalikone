@@ -85,8 +85,6 @@ public class EhdokasKysely implements Moduuli {
                 }
                 em.close();
             }
-
-            //jos kysymykset loppuvat, lasketaan tulos!
         } else {
             //siirrytään hakemaan paras ehdokas
             vaalikone.setStrFunc("haeEhdokas");
