@@ -40,15 +40,15 @@ public class EhdokasKysely implements Moduuli {
 
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strVastaus = request.getParameter("vastaus");
-        
+
         // Haetaan Vaalikoneeseen tallennetut Käyttäjä, EntityManager ja Logger
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());
         session = vaalikone.getSession();
-        
+
         logger.log(Level.FINE, "Sessio ID: {0}", session.getId());
-        
+
         // Jos kysymyksen numero (kysId) on asetettu, haetaan tuo kysymys
         // muuten haetaan kysnro 1
         if (strKysymys_id == null) {
@@ -63,7 +63,7 @@ public class EhdokasKysely implements Moduuli {
             //määritä seuraavaksi haettava kysymys
             kysymys_id++;
         }
-        
+
         //jos kysymyksiä on vielä jäljellä, hae seuraava
         if (kysymys_id < 20) {
             try {
@@ -74,7 +74,8 @@ public class EhdokasKysely implements Moduuli {
                 //Lue haluttu kysymys listaan
                 List<Kysymykset> kysymysList = q.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
-                request.getRequestDispatcher("/vastaus.jsp")
+                request.setAttribute("vaalikone", vaalikone);
+                request.getRequestDispatcher("/ehdkys.jsp")
                         .forward(request, response);
 
             } finally {
