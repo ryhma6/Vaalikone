@@ -10,11 +10,11 @@
 <!DOCTYPE html>
 <html>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Muuttaminen onnistui</title>
+        <title>Muutokset onnistui!</title>
         <link href="style.css" rel="stylesheet" type="text/css">
     <body>
      <div id="container">
-        <h1>Uuden kysymyksen lisääminen onnistui!</h1>       
+        <h1>Upeaa!</h1>       
         <form action="Vaalikone">
                 <input type="hidden" name="func" value="muutakysely">
                 <input id="submitnappi" type="submit" value="Palaa takaisin" name="btnMuutaKyselya" />

@@ -68,6 +68,7 @@ public class Kysely implements Moduuli {
             }
 
             //määritä seuraavaksi haettava kysymys
+
             kysymys_id++;
         }
 
@@ -79,7 +80,10 @@ public class Kysely implements Moduuli {
                         "SELECT k FROM Kysymykset k WHERE k.kysymysId=?1");
                 q.setParameter(1, kysymys_id);
                 //Lue haluttu kysymys listaan
+                
                 List<Kysymykset> kysymysList = q.getResultList();
+                
+                
                 request.setAttribute("kysymykset", kysymysList);
                 request.setAttribute("vaalikone", vaalikone);
                 request.getRequestDispatcher("/vastaus.jsp")

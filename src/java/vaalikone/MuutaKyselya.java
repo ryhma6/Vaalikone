@@ -60,16 +60,19 @@ public class MuutaKyselya implements Moduuli {
                 Kysymykset poistakys = em.find(Kysymykset.class, intkysymysid);
                 em.getTransaction().begin();
                  em.remove(poistakys);
+                 em.flush();
                 em.getTransaction().commit();
                 
+                /*
                 for(int i = intkysymysid + 1; i <= (int)max_id; i++){
                  poistakys = em.find(Kysymykset.class, i);
                  poistakys.setKysymysId(poistakys.getKysymysId()-1);
-                 
                  em.getTransaction().begin();
                  em.refresh(poistakys);
+                 em.flush();
                 em.getTransaction().commit();
                 }
+                */
                 
                 if (em.getTransaction()
                         .isActive()) {
@@ -90,7 +93,7 @@ public class MuutaKyselya implements Moduuli {
 
         } else if(strUusikysymys != null) {
             try {
-                Kysymykset kys = new Kysymykset((int)max_id);
+                Kysymykset kys = new Kysymykset((int)max_id + 1);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();
                 em.persist(kys);

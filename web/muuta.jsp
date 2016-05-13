@@ -18,18 +18,20 @@
               <%  for (int i = 0; i < kaikkiKysymykset.size(); i++) { %>
               <div class="lisaakyslista"> 
                   <form action="Vaalikone">
-                  <%= i + 1%>: <%= kaikkiKysymykset.get(i).getKysymys()%> id: <%= kaikkiKysymykset.get(i).getKysymysId()%> 
                   <input type="hidden" name="func" value="muutakysely">
                   <input type="hidden" name="kyssaripoistaid" value="<%= kaikkiKysymykset.get(i).getKysymysId()%>">
-                  <input type="submit" value="poista">
+                  <input type="submit" value="poista" class="poistanappi">
+                  <%= i + 1%>: <%= kaikkiKysymykset.get(i).getKysymys()%> id: <%= kaikkiKysymykset.get(i).getKysymysId()%> 
                   </form>
               </div>
      <%  } %>
       
-        <h1>Uusi kysymys</h1>
+        <h2>Uusi kysymys</h2>
         
         <form action="Vaalikone">
-            <input type="text" name="uusikyssari" maxlength="100" width="300px"> <br/><br/>
+            <textarea rows="4" cols="50" name="uusikyssari" maxlength="100" width="300px"> </textarea><br>
+            <small>MAX 100 merkkiä.</small>
+            <br/><br/>
             <input type="hidden" name="func" value="muutakysely">
             <input type="submit" value="Lisää uusi kysymys!">
         </form>
