@@ -72,6 +72,7 @@ public class EhdokasKysely implements Moduuli {
         int kysnum = Integer.parseInt(Vaalikone.getLastId(vaalikone, "Kysymykset").toString());
 
         //jos kysymyksiä on vielä jäljellä, hae seuraava
+
         if (kysymys_id <= kysnum) {
             try {
                 //Hae haluttu kysymys tietokannasta

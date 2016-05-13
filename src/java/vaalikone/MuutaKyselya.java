@@ -7,6 +7,7 @@ package vaalikone;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -39,13 +40,57 @@ public class MuutaKyselya implements Moduuli {
 
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strUusikysymys = request.getParameter("uusikyssari");
+        
+        //Kysymyksen id
+        String poistakysymysid = request.getParameter("kyssaripoistaid");
 
+             //hae kaikki kysymykset
+            Query q = em.createQuery(
+                    "SELECT k FROM Kysymykset k");
+            List<Kysymykset> kaikkiKysymykset = q.getResultList();
+            request.setAttribute("kaikkiKysymykset", kaikkiKysymykset);
+
+         //Tarkastetaan listan pituus
+        Query qT = em.createQuery("SELECT COUNT(t) FROM Kysymykset t");
+        long max_id = Vaalikone.getLastId(vaalikone, "Kysymykset");
+        
+       if(poistakysymysid != null){
+                  int intkysymysid = Integer.parseInt(poistakysymysid);
+                  //Poistetaan kysymys id perusteella  
+                Kysymykset poistakys = em.find(Kysymykset.class, intkysymysid);
+                em.getTransaction().begin();
+                 em.remove(poistakys);
+                em.getTransaction().commit();
+                
+                for(int i = intkysymysid + 1; i <= (int)max_id; i++){
+                 poistakys = em.find(Kysymykset.class, i);
+                 poistakys.setKysymysId(poistakys.getKysymysId()-1);
+                 
+                 em.getTransaction().begin();
+                 em.refresh(poistakys);
+                em.getTransaction().commit();
+                }
+                
+                if (em.getTransaction()
+                        .isActive()) {
+                    em.getTransaction().rollback();
+                }
+
+                em.close();
+           
+                     request.getRequestDispatcher("/muuta_onnistui.jsp")
+                    .forward(request, response);
+       }
+        
+        
         if (strUusikysymys == null || strUusikysymys == "" || strUusikysymys == " ") {
+            
             request.getRequestDispatcher("/muuta.jsp")
                     .forward(request, response);
-        } else {
+
+        } else if(strUusikysymys != null) {
             try {
-                Kysymykset kys = new Kysymykset(20);
+                Kysymykset kys = new Kysymykset((int)max_id);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();
                 em.persist(kys);
@@ -73,7 +118,7 @@ public class MuutaKyselya implements Moduuli {
             }
 
             request.getRequestDispatcher(
-                    "/index.html")
+                    "/muuta_onnistui.jsp")
                     .forward(request, response);
         }
 
