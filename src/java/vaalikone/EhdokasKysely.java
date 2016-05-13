@@ -7,6 +7,8 @@ package vaalikone;
 
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import persist.Kysymykset;
 import persist.Vastaukset;
+import persist.VastauksetPK;
+import java.lang.Math;
 
 /**
  *
@@ -34,21 +38,22 @@ public class EhdokasKysely implements Moduuli {
     public void ajaModuuli(HttpServletRequest request, HttpServletResponse response, Vaalikone vaalikone) throws ServletException, IOException {
 
         int kysymys_id;
+        int ehdokas_id = 0;
 
         //hae parametrinä tuotu edellisen kysymyksen nro
         String strKysymys_id = request.getParameter("q");
 
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strVastaus = request.getParameter("vastaus");
-        
+
         // Haetaan Vaalikoneeseen tallennetut Käyttäjä, EntityManager ja Logger
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());
         session = vaalikone.getSession();
-        
+
         logger.log(Level.FINE, "Sessio ID: {0}", session.getId());
-        
+
         // Jos kysymyksen numero (kysId) on asetettu, haetaan tuo kysymys
         // muuten haetaan kysnro 1
         if (strKysymys_id == null) {
@@ -63,9 +68,12 @@ public class EhdokasKysely implements Moduuli {
             //määritä seuraavaksi haettava kysymys
             kysymys_id++;
         }
-        
+
+        int kysnum = Integer.parseInt(Vaalikone.getLastId(vaalikone, "Kysymykset").toString());
+
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-        if (kysymys_id < 25) {
+
+        if (kysymys_id <= kysnum) {
             try {
                 //Hae haluttu kysymys tietokannasta
                 Query q = em.createQuery(
@@ -74,7 +82,9 @@ public class EhdokasKysely implements Moduuli {
                 //Lue haluttu kysymys listaan
                 List<Kysymykset> kysymysList = q.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
-                request.getRequestDispatcher("/vastaus.jsp")
+                request.setAttribute("vaalikone", vaalikone);
+                request.setAttribute("func", "ehdkys");
+                request.getRequestDispatcher("/ehdkys.jsp")
                         .forward(request, response);
 
             } finally {
@@ -84,12 +94,44 @@ public class EhdokasKysely implements Moduuli {
                 }
                 em.close();
             }
-
-            //jos kysymykset loppuvat, lasketaan tulos!
         } else {
-            //siirrytään hakemaan paras ehdokas
-            vaalikone.setStrFunc("haeEhdokas");
+            //Tallennetaan ehdokkaan vastaukset tietokantaan
+            String kommentti = request.getParameter("kommentti");
+            int vastaus = Integer.parseInt(request.getParameter("vastaus"));
+
+            List<Integer> vastaukset = new ArrayList<>(kysnum);
+            vastaukset = usr.getVastausLista();
+
+            VastauksetPK vasPK = new VastauksetPK();
+            Vastaukset vas = new Vastaukset();
+
+            em.getTransaction().begin();
+            
+            try {
+                for (int i = 0; i < (kysnum + 1); i++) {
+                    vasPK.setEhdokasId(ehdokas_id);
+                    vasPK.setKysymysId(i);
+
+                    vas.setVastauksetPK(vasPK);
+                    vas.setVastaus(vastaukset.get(i));
+                    
+                    em.persist(vasPK);
+                    em.persist(vas);
+                }
+                
+                em.getTransaction().commit();
+                
+            } finally {
+                if (em.getTransaction()
+                        .isActive()) {
+                    em.getTransaction().rollback();
+                }
+
+                em.close();
+                
+                request.setAttribute("func", null);
+                request.getRequestDispatcher("/index.html").forward(request, response);
+            }
         }
     }
-
 }

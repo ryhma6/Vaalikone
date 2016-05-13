@@ -27,11 +27,11 @@ public class ServletListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        
+
         EntityManagerFactory emf =
             createEntityManagerFactory("Vaalikone5PU");
         sce.getServletContext().setAttribute("emf", emf);
-        
+
         Loki.init();
 
     }
@@ -46,5 +46,5 @@ public class ServletListener implements ServletContextListener {
             (EntityManagerFactory)sce.getServletContext().getAttribute("emf");
         emf.close();
     }
-    
+
 }

@@ -25,7 +25,7 @@
  <%
             @SuppressWarnings("unchecked")
             List<Kysymykset> kysymykset = (List<Kysymykset>)request.getAttribute("kysymykset");
-            Object vaalikone = request.getAttribute("vaalikone");
+            Vaalikone vaalikone = (Vaalikone)request.getAttribute("vaalikone");
             for (Kysymykset kysymys : kysymykset) { %>
             <div class="kysymys">
                 <%= kysymys.getKysymysId() %> / <%= Vaalikone.getLastId(vaalikone, "Kysymykset") %> <br>

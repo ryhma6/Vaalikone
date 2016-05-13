@@ -166,8 +166,8 @@ public class Vaalikone extends HttpServlet {
         this.strFunc = strFunc;
     }
 
-    public static Long getLastId(Object vaalikoneObj, String tableName) {
-        Vaalikone vaalikone = Vaalikone.class.cast(vaalikoneObj);
+    public static Long getLastId(Vaalikone vaalikone, String tableName) {
+        //Vaalikone vaalikone = Vaalikone.class.cast(vaalikoneObj);
         EntityManager em = vaalikone.getEm();
         Query qT = em.createQuery("SELECT COUNT(t) FROM " + tableName + " t");
         Long count = (Long)qT.getSingleResult();
@@ -176,7 +176,7 @@ public class Vaalikone extends HttpServlet {
         if (em.getTransaction().isActive()) {
             em.getTransaction().rollback();
         }
-        em.close();
+        //em.close();
 
         return count;
     }
