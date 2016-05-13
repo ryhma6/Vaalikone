@@ -41,6 +41,9 @@ public class MuutaKyselya implements Moduuli {
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strUusikysymys = request.getParameter("uusikyssari");
         
+        //Kysymyksen id
+        String poistakysymysid = request.getParameter("kyssaripoistaid");
+
              //hae kaikki kysymykset
             Query q = em.createQuery(
                     "SELECT k FROM Kysymykset k");
@@ -49,17 +52,44 @@ public class MuutaKyselya implements Moduuli {
 
          //Tarkastetaan listan pituus
         Query qT = em.createQuery("SELECT COUNT(t) FROM Kysymykset t");
-        long max_id = (Long)qT.getSingleResult() + 1;
+        long max_id = Vaalikone.getLastId(vaalikone, "Kysymykset");
         
-            
+       if(poistakysymysid != null){
+                  int intkysymysid = Integer.parseInt(poistakysymysid);
+                  //Poistetaan kysymys id perusteella  
+                Kysymykset poistakys = em.find(Kysymykset.class, intkysymysid);
+                em.getTransaction().begin();
+                 em.remove(poistakys);
+                em.getTransaction().commit();
+                
+                for(int i = intkysymysid + 1; i <= (int)max_id; i++){
+                 poistakys = em.find(Kysymykset.class, i);
+                 poistakys.setKysymysId(poistakys.getKysymysId()-1);
+                 
+                 em.getTransaction().begin();
+                 em.refresh(poistakys);
+                em.getTransaction().commit();
+                }
+                
+                if (em.getTransaction()
+                        .isActive()) {
+                    em.getTransaction().rollback();
+                }
+
+                em.close();
+           
+                     request.getRequestDispatcher("/muuta_onnistui.jsp")
+                    .forward(request, response);
+       }
+        
+        
         if (strUusikysymys == null || strUusikysymys == "" || strUusikysymys == " ") {
             
             request.getRequestDispatcher("/muuta.jsp")
                     .forward(request, response);
 
-        } else {
+        } else if(strUusikysymys != null) {
             try {
-             //KYSYMESTEN MÄÄRÄN ASETTAMINN TÄHÄN ->
                 Kysymykset kys = new Kysymykset((int)max_id);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();

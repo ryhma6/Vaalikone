@@ -77,4 +77,12 @@ body {
 	margin-right: auto;
 	text-align: center;
 	}
+        .lisaakyslista{
+            text-align:left;
+            font-size:12px;
+            font-weight: normal;
+            margin:0;
+            padding:0;
+            
+        }
 

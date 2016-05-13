@@ -12,16 +12,23 @@
         <title>Muuta kyselyä</title>
         <link href="style.css" rel="stylesheet" type="text/css">
     <body>
-     <div id="container" style="text-align:center;">
-         
+     <div id="container">
+         <h2>Kaikki kysymykset</h2>
         <% List<Kysymykset> kaikkiKysymykset = (List<Kysymykset>) request.getAttribute("kaikkiKysymykset"); %>
               <%  for (int i = 0; i < kaikkiKysymykset.size(); i++) { %>
-              <b>Kysymys <%= i + 1%>: <%= kaikkiKysymykset.get(i).getKysymys()%></b><br>
+              <div class="lisaakyslista"> 
+                  <form action="Vaalikone">
+                  <%= i + 1%>: <%= kaikkiKysymykset.get(i).getKysymys()%> id: <%= kaikkiKysymykset.get(i).getKysymysId()%> 
+                  <input type="hidden" name="func" value="muutakysely">
+                  <input type="hidden" name="kyssaripoistaid" value="<%= kaikkiKysymykset.get(i).getKysymysId()%>">
+                  <input type="submit" value="poista">
+                  </form>
+              </div>
      <%  } %>
       
         <h1>Uusi kysymys</h1>
         
-        <form action="Vaalikone" id="uusikysymys">
+        <form action="Vaalikone">
             <input type="text" name="uusikyssari" maxlength="100" width="300px"> <br/><br/>
             <input type="hidden" name="func" value="muutakysely">
             <input type="submit" value="Lisää uusi kysymys!">
