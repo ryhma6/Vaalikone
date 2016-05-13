@@ -82,6 +82,7 @@ public class EhdokasKysely implements Moduuli {
                 List<Kysymykset> kysymysList = q.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
                 request.setAttribute("vaalikone", vaalikone);
+                request.setAttribute("func", "ehdkys");
                 request.getRequestDispatcher("/ehdkys.jsp")
                         .forward(request, response);
 
@@ -103,6 +104,8 @@ public class EhdokasKysely implements Moduuli {
             VastauksetPK vasPK = new VastauksetPK();
             Vastaukset vas = new Vastaukset();
 
+            em.getTransaction().begin();
+            
             try {
                 for (int i = 0; i < (kysnum + 1); i++) {
                     vasPK.setEhdokasId(ehdokas_id);
@@ -110,12 +113,13 @@ public class EhdokasKysely implements Moduuli {
 
                     vas.setVastauksetPK(vasPK);
                     vas.setVastaus(vastaukset.get(i));
-
-                    em.getTransaction().begin();
+                    
                     em.persist(vasPK);
                     em.persist(vas);
-                    em.getTransaction().commit();
                 }
+                
+                em.getTransaction().commit();
+                
             } finally {
                 if (em.getTransaction()
                         .isActive()) {
@@ -123,6 +127,9 @@ public class EhdokasKysely implements Moduuli {
                 }
 
                 em.close();
+                
+                request.setAttribute("func", null);
+                request.getRequestDispatcher("/index.html").forward(request, response);
             }
         }
     }
