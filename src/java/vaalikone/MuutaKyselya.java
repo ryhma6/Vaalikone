@@ -7,6 +7,7 @@ package vaalikone;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -39,14 +40,27 @@ public class MuutaKyselya implements Moduuli {
 
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strUusikysymys = request.getParameter("uusikyssari");
+        
+             //hae kaikki kysymykset
+            Query q = em.createQuery(
+                    "SELECT k FROM Kysymykset k");
+            List<Kysymykset> kaikkiKysymykset = q.getResultList();
+            request.setAttribute("kaikkiKysymykset", kaikkiKysymykset);
 
+         //Tarkastetaan listan pituus
+        Query qT = em.createQuery("SELECT COUNT(t) FROM Kysymykset t");
+        long max_id = (Long)qT.getSingleResult() + 1;
+        
+            
         if (strUusikysymys == null || strUusikysymys == "" || strUusikysymys == " ") {
+            
             request.getRequestDispatcher("/muuta.jsp")
                     .forward(request, response);
+
         } else {
             try {
              //KYSYMESTEN MÄÄRÄN ASETTAMINN TÄHÄN ->
-                Kysymykset kys = new Kysymykset(24);
+                Kysymykset kys = new Kysymykset((int)max_id);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();
                 em.persist(kys);
