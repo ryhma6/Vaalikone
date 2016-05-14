@@ -38,7 +38,7 @@ public class EhdokasKysely implements Moduuli {
     public void ajaModuuli(HttpServletRequest request, HttpServletResponse response, Vaalikone vaalikone) throws ServletException, IOException {
 
         int kysymys_id;
-        int ehdokas_id = 0;
+        int ehdokas_id = 1;
 
         //hae parametrinä tuotu edellisen kysymyksen nro
         String strKysymys_id = request.getParameter("q");
@@ -72,7 +72,6 @@ public class EhdokasKysely implements Moduuli {
         int kysnum = Integer.parseInt(Vaalikone.getLastId(vaalikone, "Kysymykset").toString());
 
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-
         if (kysymys_id <= kysnum) {
             try {
                 //Hae haluttu kysymys tietokannasta
@@ -102,25 +101,26 @@ public class EhdokasKysely implements Moduuli {
             List<Integer> vastaukset = new ArrayList<>(kysnum);
             vastaukset = usr.getVastausLista();
 
-            VastauksetPK vasPK = new VastauksetPK();
-            Vastaukset vas = new Vastaukset();
+            //Vastaukset vas = new Vastaukset();
 
-            em.getTransaction().begin();
-            
             try {
-                for (int i = 0; i < (kysnum + 1); i++) {
+                for (int i = 1; i <= kysnum; i++) {
+                    em.getTransaction().begin();
+                    VastauksetPK vasPK = new VastauksetPK(ehdokas_id, i);
+                    //vasPK = em.find(VastauksetPK.class, i);
                     vasPK.setEhdokasId(ehdokas_id);
                     vasPK.setKysymysId(i);
 
+                    Vastaukset vas = em.find(Vastaukset.class, vasPK);
                     vas.setVastauksetPK(vasPK);
                     vas.setVastaus(vastaukset.get(i));
-                    
-                    em.persist(vasPK);
-                    em.persist(vas);
+                    vas.setKommentti(kommentti);
+
+                    //em.refresh(vasPK);
+                    //em.persist(vas);
+                    em.getTransaction().commit();
                 }
-                
-                em.getTransaction().commit();
-                
+
             } finally {
                 if (em.getTransaction()
                         .isActive()) {
@@ -128,10 +128,10 @@ public class EhdokasKysely implements Moduuli {
                 }
 
                 em.close();
-                
-                request.setAttribute("func", null);
-                request.getRequestDispatcher("/index.html").forward(request, response);
             }
+
+            request.setAttribute("func", null);
+            request.getRequestDispatcher("/index.html").forward(request, response);
         }
     }
 }
