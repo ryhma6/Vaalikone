@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
  * @author Jonne
  */
 public class Kayttaja implements Serializable {
-
     private final List<Integer> vastaus = new ArrayList<>(20);
     List<Tuple<Integer, Integer>> pisteet = new ArrayList<>(20);
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
@@ -102,7 +101,7 @@ public class Kayttaja implements Serializable {
          *  Collections.reverseOrder kääntää järjestyksen toisin päin
          */
         Collections.sort(this.pisteet, Collections.reverseOrder(comparator));
-        
+
 //        this.pisteet.stream().forEach((tpl) -> {
 //            logger.log(Level.INFO, "Ehdokas ID={0} pisteet={1}", new Object[]{tpl.ehdokasId, tpl.pisteet});
 //        });

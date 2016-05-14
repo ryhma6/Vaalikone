@@ -6,6 +6,7 @@
 package vaalikone;
 
 import java.io.IOException;
+import static java.lang.Math.toIntExact;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +46,8 @@ public class MuutaKyselya implements Moduuli {
                     .forward(request, response);
         } else {
             try {
-                Kysymykset kys = new Kysymykset(20);
+                int kysId = toIntExact(Vaalikone.getLastId(vaalikone, "Kysymykset"));
+                Kysymykset kys = new Kysymykset(kysId + 1);
                 kys.setKysymys(strUusikysymys);
                 em.getTransaction().begin();
                 em.persist(kys);

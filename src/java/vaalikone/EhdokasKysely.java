@@ -7,6 +7,8 @@ package vaalikone;
 
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
+import static java.lang.Math.toIntExact;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,8 +66,10 @@ public class EhdokasKysely implements Moduuli {
             kysymys_id++;
         }
 
+        int kysIds = toIntExact(Vaalikone.getLastId(vaalikone, "Kysymykset"));
+
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-        if (kysymys_id < 20) {
+        if (kysymys_id <= kysIds) {
             try {
                 //Hae haluttu kysymys tietokannasta
                 Query q = em.createQuery(
@@ -87,7 +91,9 @@ public class EhdokasKysely implements Moduuli {
             }
         } else {
             //siirrytään hakemaan paras ehdokas
-            vaalikone.setStrFunc("haeEhdokas");
+            String kommentti = request.getParameter("kommentti");
+            int vastaus = Integer.parseInt(request.getParameter("vastaus"));
+            List<Integer> vastaukset = new ArrayList<Integer>() {};
         }
     }
 
