@@ -24,13 +24,18 @@ import persist.Vastaukset;
  */
 public class Kysely implements Moduuli {
 
+    
     private Kayttaja usr;
     private EntityManager em;
     private Logger logger;
+    long max_id;
 
     @Override
     public void ajaModuuli(HttpServletRequest request, HttpServletResponse response, Vaalikone vaalikone) throws ServletException, IOException {
 
+
+
+        
         int kysymys_id;
 
         //hae parametrinä tuotu edellisen kysymyksen nro
@@ -43,6 +48,13 @@ public class Kysely implements Moduuli {
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
         logger = Logger.getLogger(Loki.class.getName());
+        
+        //Tarkastetaan listan pituus
+        Query qT = em.createQuery("SELECT COUNT(t) FROM Kysymykset t");
+        max_id = (Long)qT.getSingleResult() + 1;
+        
+
+        
 
         // Jos kysymyksen numero (kysId) on asetettu, haetaan tuo kysymys
         // muuten haetaan kysnro 1
@@ -56,18 +68,22 @@ public class Kysely implements Moduuli {
             }
 
             //määritä seuraavaksi haettava kysymys
+
             kysymys_id++;
         }
 
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-        if (kysymys_id < 20) {
+        if (kysymys_id < max_id) {
             try {
                 //Hae haluttu kysymys tietokannasta
                 Query q = em.createQuery(
                         "SELECT k FROM Kysymykset k WHERE k.kysymysId=?1");
                 q.setParameter(1, kysymys_id);
                 //Lue haluttu kysymys listaan
+                
                 List<Kysymykset> kysymysList = q.getResultList();
+                
+                
                 request.setAttribute("kysymykset", kysymysList);
                 request.setAttribute("vaalikone", vaalikone);
                 request.getRequestDispatcher("/vastaus.jsp")
@@ -85,7 +101,7 @@ public class Kysely implements Moduuli {
         } else {
 
             //Tyhjennetään piste-array jotta pisteet eivät tuplaannu mahdollisen refreshin tapahtuessa
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < max_id; i++) {
                 usr.pisteet.set(i, new Tuple<>(0, 0));
             }
 

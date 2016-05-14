@@ -74,12 +74,20 @@ label {
     font-size: large;
 }
 #vastausformi{
-    height: 100px;
-    width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
+	height: 100px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	}
+        .lisaakyslista{
+            text-align:left;
+            font-size:12px;
+            font-weight: normal;
+            margin:0;
+            padding:0;
+            
+        }
 #kommentti{
     margin-left: 5px;
     margin-top: 5px;
@@ -94,3 +102,30 @@ label {
 
 }
 
+
+
+.poistanappi {
+   background-image: -webkit-linear-gradient(top, rgba(168,0,0,1) 13%,rgba(255,61,61,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(168,0,0,1) 13%,rgba(255,61,61,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(168,0,0,1) 13%,rgba(255,61,61,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(168,0,0,1) 13%,rgba(255,61,61,1) 100%);
+   background-image:         linear-gradient(top, rgba(168,0,0,1) 13%,rgba(255,61,61,1) 100%);
+   border: solid 1px rgba(0,0,0,1);
+   -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+           border-radius: 5px;
+   padding: 3px;
+   display: inline-block;
+   line-height: 17px;
+   color: rgba(255,255,255,1);
+   font-weight: bold;
+   cursor:pointer;
+   margin:3px;
+}
+.poistanappi:hover {
+   background-image: -webkit-linear-gradient(top, rgba(255,82,82,1) 13%,rgba(150,0,0,1) 100%);
+   background-image:    -moz-linear-gradient(top, rgba(255,82,82,1) 13%,rgba(150,0,0,1) 100%);
+   background-image:     -ms-linear-gradient(top, rgba(255,82,82,1) 13%,rgba(150,0,0,1) 100%);
+   background-image:      -o-linear-gradient(top, rgba(255,82,82,1) 13%,rgba(150,0,0,1) 100%);
+   background-image:         linear-gradient(top, rgba(255,82,82,1) 13%,rgba(150,0,0,1) 100%);
+}

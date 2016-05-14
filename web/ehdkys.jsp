@@ -39,6 +39,7 @@
                     <label>5</label><input type="radio" name="vastaus" value="5" /><br><br>
                     <label class="txtareakommentti">Kommentti</label><br><textarea name="kommentti" id="kommentti" form="vastausformi" draggable="false" maxlength="200" rows="4" ></textarea>
                     <input type="hidden" name="q" value="<%= kysymys.getKysymysId() %>">
+                    <input type="hidden" name="func" value="ehdkys">
                     <input type="submit" id="submitnappi" value="Vastaa" />
                 </form>
                     <div class="kysymys"><small>1=Täysin eri mieltä 2=Osittain eri mieltä 3=En osaa sanoa, 4=Osittain samaa mieltä 5=Täysin samaa mieltä</small></div>

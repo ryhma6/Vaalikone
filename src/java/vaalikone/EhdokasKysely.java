@@ -7,8 +7,8 @@ package vaalikone;
 
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
-import static java.lang.Math.toIntExact;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import persist.Kysymykset;
 import persist.Vastaukset;
+import persist.VastauksetPK;
+import java.lang.Math;
 
 /**
  *
@@ -36,6 +38,7 @@ public class EhdokasKysely implements Moduuli {
     public void ajaModuuli(HttpServletRequest request, HttpServletResponse response, Vaalikone vaalikone) throws ServletException, IOException {
 
         int kysymys_id;
+        int ehdokas_id = 0;
 
         //hae parametrinä tuotu edellisen kysymyksen nro
         String strKysymys_id = request.getParameter("q");
@@ -66,10 +69,11 @@ public class EhdokasKysely implements Moduuli {
             kysymys_id++;
         }
 
-        int kysIds = toIntExact(Vaalikone.getLastId(vaalikone, "Kysymykset"));
+        int kysnum = Integer.parseInt(Vaalikone.getLastId(vaalikone, "Kysymykset").toString());
 
         //jos kysymyksiä on vielä jäljellä, hae seuraava
-        if (kysymys_id <= kysIds) {
+
+        if (kysymys_id <= kysnum) {
             try {
                 //Hae haluttu kysymys tietokannasta
                 Query q = em.createQuery(
@@ -79,6 +83,7 @@ public class EhdokasKysely implements Moduuli {
                 List<Kysymykset> kysymysList = q.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
                 request.setAttribute("vaalikone", vaalikone);
+                request.setAttribute("func", "ehdkys");
                 request.getRequestDispatcher("/ehdkys.jsp")
                         .forward(request, response);
 
@@ -90,11 +95,43 @@ public class EhdokasKysely implements Moduuli {
                 em.close();
             }
         } else {
-            //siirrytään hakemaan paras ehdokas
+            //Tallennetaan ehdokkaan vastaukset tietokantaan
             String kommentti = request.getParameter("kommentti");
             int vastaus = Integer.parseInt(request.getParameter("vastaus"));
-            List<Integer> vastaukset = new ArrayList<Integer>() {};
+
+            List<Integer> vastaukset = new ArrayList<>(kysnum);
+            vastaukset = usr.getVastausLista();
+
+            VastauksetPK vasPK = new VastauksetPK();
+            Vastaukset vas = new Vastaukset();
+
+            em.getTransaction().begin();
+            
+            try {
+                for (int i = 0; i < (kysnum + 1); i++) {
+                    vasPK.setEhdokasId(ehdokas_id);
+                    vasPK.setKysymysId(i);
+
+                    vas.setVastauksetPK(vasPK);
+                    vas.setVastaus(vastaukset.get(i));
+                    
+                    em.persist(vasPK);
+                    em.persist(vas);
+                }
+                
+                em.getTransaction().commit();
+                
+            } finally {
+                if (em.getTransaction()
+                        .isActive()) {
+                    em.getTransaction().rollback();
+                }
+
+                em.close();
+                
+                request.setAttribute("func", null);
+                request.getRequestDispatcher("/index.html").forward(request, response);
+            }
         }
     }
-
 }
