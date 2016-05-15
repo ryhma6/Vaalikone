@@ -78,10 +78,16 @@ public class EhdokasKysely implements Moduuli {
                 Query q = em.createQuery(
                         "SELECT k FROM Kysymykset k WHERE k.kysymysId=?1");
                 q.setParameter(1, kysymys_id);
-                //Lue haluttu kysymys listaan
+
+                Query qV = em.createQuery(
+                        "SELECT v FROM Vastaukset v WHERE v.vastauksetPK.ehdokasId=?1");
+                qV.setParameter(1, ehdokas_id);
+                //Lue haluttu kysymys ja vastaus listoihin
                 List<Kysymykset> kysymysList = q.getResultList();
+                List<Vastaukset> vastausList = qV.getResultList();
                 request.setAttribute("kysymykset", kysymysList);
                 request.setAttribute("vaalikone", vaalikone);
+                request.setAttribute("vastaukset", vastausList);
                 request.setAttribute("func", "ehdkys");
                 request.getRequestDispatcher("/ehdkys.jsp")
                         .forward(request, response);
@@ -101,8 +107,6 @@ public class EhdokasKysely implements Moduuli {
             List<Integer> vastaukset = new ArrayList<>(kysnum);
             vastaukset = usr.getVastausLista();
 
-            //Vastaukset vas = new Vastaukset();
-
             try {
                 for (int i = 1; i <= kysnum; i++) {
                     em.getTransaction().begin();
@@ -112,6 +116,11 @@ public class EhdokasKysely implements Moduuli {
                     vasPK.setKysymysId(i);
 
                     Vastaukset vas = em.find(Vastaukset.class, vasPK);
+
+                    if (vas == null) {
+                        vas = new Vastaukset();
+                    }
+
                     vas.setVastauksetPK(vasPK);
                     vas.setVastaus(vastaukset.get(i));
                     vas.setKommentti(kommentti);
@@ -131,7 +140,7 @@ public class EhdokasKysely implements Moduuli {
             }
 
             request.setAttribute("func", null);
-            request.getRequestDispatcher("/index.html").forward(request, response);
+            request.getRequestDispatcher("/ehdkys.jsp").forward(request, response);
         }
     }
 }
