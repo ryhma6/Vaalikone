@@ -46,6 +46,8 @@ public class EhdokasKysely implements Moduuli {
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strVastaus = request.getParameter("vastaus");
 
+        String strKommentti = request.getParameter("kommentti");
+
         // Haetaan Vaalikoneeseen tallennetut Käyttäjä, EntityManager ja Logger
         usr = vaalikone.getUsr();
         em = vaalikone.getEm();
@@ -61,8 +63,9 @@ public class EhdokasKysely implements Moduuli {
         } else {
             kysymys_id = parseInt(strKysymys_id);
             //jos vastaus on asetettu, tallenna se session käyttäjä-olioon
-            if (strVastaus != null) {
+            if (strVastaus != null && strKommentti != null) {
                 usr.addVastaus(kysymys_id, parseInt(strVastaus));
+                usr.addKommentti(kysymys_id, strKommentti);
             }
 
             //määritä seuraavaksi haettava kysymys
@@ -104,8 +107,8 @@ public class EhdokasKysely implements Moduuli {
             String kommentti = request.getParameter("kommentti");
             int vastaus = Integer.parseInt(request.getParameter("vastaus"));
 
-            List<Integer> vastaukset = new ArrayList<>(kysnum);
-            vastaukset = usr.getVastausLista();
+            List<Integer> vastaukset = usr.getVastausLista();
+            List<String> kommentit = usr.getKommenttiLista();
 
             try {
                 for (int i = 1; i <= kysnum; i++) {
@@ -123,7 +126,7 @@ public class EhdokasKysely implements Moduuli {
 
                     vas.setVastauksetPK(vasPK);
                     vas.setVastaus(vastaukset.get(i));
-                    vas.setKommentti(kommentti);
+                    vas.setKommentti(kommentit.get(i));
 
                     //em.refresh(vasPK);
                     //em.persist(vas);

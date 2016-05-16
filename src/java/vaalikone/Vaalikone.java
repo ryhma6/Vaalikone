@@ -180,4 +180,8 @@ public class Vaalikone extends HttpServlet {
 
         return count;
     }
+
+    public static String checked() {
+        return "checked='checked'";
+    }
 }

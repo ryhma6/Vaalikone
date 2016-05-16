@@ -21,7 +21,7 @@ body {
     background-repeat: repeat;
 }
 label {
-    padding: 5px;
+    padding-left: 5px;
 }
 #headerimg {
     margin-left: auto;
@@ -74,7 +74,7 @@ label {
     font-size: large;
 }
 #vastausformi{
-	height: 100px;
+	height: auto;
 	width: 500px;
 	margin-left: auto;
 	margin-right: auto;
@@ -86,7 +86,7 @@ label {
             font-weight: normal;
             margin:0;
             padding:0;
-            
+
         }
 #kommentti{
     margin-left: 5px;

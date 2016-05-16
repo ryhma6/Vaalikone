@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 public class Kayttaja implements Serializable {
     private final List<Integer> vastaus = new ArrayList<>(50);
+    private final List<String> kommentti = new ArrayList<>(50);
     List<Tuple<Integer, Integer>> pisteet = new ArrayList<>(50);
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
     private HttpSession sessionRef = null;
@@ -33,6 +34,7 @@ public class Kayttaja implements Serializable {
         for (int i = 0; i < 50; i++) {
             this.vastaus.add(0);
             this.pisteet.add(new Tuple<>(0, 0));
+            this.kommentti.add("");
         }
 
     }
@@ -107,6 +109,18 @@ public class Kayttaja implements Serializable {
 //        });
 
         return this.pisteet;
+    }
+
+    public void addKommentti(int index, String kommentti) {
+        this.kommentti.set(index, kommentti);
+    }
+
+    public String getKommentti(int index) {
+        return kommentti.get(index);
+    }
+
+    public List<String> getKommenttiLista() {
+        return kommentti;
     }
 
     //Tuplen järjestämiseen tarvittavan comparatorin muodostaminen
