@@ -122,6 +122,7 @@ public class EhdokasKysely implements Moduuli {
 
                     if (vas == null) {
                         vas = new Vastaukset();
+                        em.persist(vas);
                     }
 
                     vas.setVastauksetPK(vasPK);
