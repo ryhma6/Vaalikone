@@ -32,6 +32,11 @@ public class Vaalikone extends HttpServlet {
     //hae java logger-instanssi
     private final static Logger logger = Logger.getLogger(Loki.class.getName());
 
+    /**
+     * Palauttaa referenssin loggeriin
+     *
+     * @return Logger -olio
+     */
     public static Logger getLogger() {
         return logger;
     }
@@ -79,7 +84,6 @@ public class Vaalikone extends HttpServlet {
 
         //hae url-parametri func joka määrittää toiminnon mitä halutaan tehdä.
         //func=haeEhdokas: hae tietyn ehdokkaan tiedot ja vertaile niitä käyttäjän vastauksiin
-        //Jos ei määritelty, esitetään kysymyksiä.
         setStrFunc(request.getParameter("func"));
 
         if (strFunc == null) {
@@ -87,9 +91,11 @@ public class Vaalikone extends HttpServlet {
             logger.log(Level.FINE, "Painettu perus kysely -nappia");
             kysely.ajaModuuli(request, response, this);
         } else if (strFunc.equals("ehdkys")) {
+            //EhdokasKysely -moduuli hoitaa ehdokkaan kyselyn
             logger.log(Level.FINE, "Painettu ehdokaskysely -nappia");
             ehdkysely.ajaModuuli(request, response, this);
         } else if (strFunc.equals("muutakysely")) {
+            //MuutaKysely -moduuli antaa käyttäjän poistaa ja lisätä kysymyksiä
             logger.log(Level.FINE, "Painettu kyselyn muutos -nappia");
             muutakysely.ajaModuuli(request, response, this);
         }
@@ -134,38 +140,77 @@ public class Vaalikone extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     * Palautaa käyttäjä -olion
+     * @return
+     */
     public Kayttaja getUsr() {
         return usr;
     }
 
+    /**
+     * Määritä käyttäjä -olio
+     * @param usr
+     */
     public void setUsr(Kayttaja usr) {
         this.usr = usr;
     }
 
+    /**
+     *
+     * @return
+     */
     public HttpSession getSession() {
         return session;
     }
 
+    /**
+     *
+     * @param session
+     */
     public void setSession(HttpSession session) {
         this.session = session;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEm() {
         return em;
     }
 
+    /**
+     *
+     * @param em
+     */
     public void setEm(EntityManager em) {
         this.em = em;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStrFunc() {
         return strFunc;
     }
 
+    /**
+     *
+     * @param strFunc
+     */
     public void setStrFunc(String strFunc) {
         this.strFunc = strFunc;
     }
 
+    /**
+     * Tämä funktio lukee kuinka monta riviä annetussa taulussa on. Koska se on staattinen funktio, se tarvitsee Vaalikone -olion.
+     *
+     * @param vaalikone Vaalikone -olio
+     * @param tableName Taulun nimi String muodossa
+     * @return Palauttaa Long -muodossa rivien määrän
+     */
     public static Long getLastId(Vaalikone vaalikone, String tableName) {
         //Vaalikone vaalikone = Vaalikone.class.cast(vaalikoneObj);
         EntityManager em = vaalikone.getEm();
@@ -179,9 +224,5 @@ public class Vaalikone extends HttpServlet {
         //em.close();
 
         return count;
-    }
-
-    public static String checked() {
-        return "checked='checked'";
     }
 }
