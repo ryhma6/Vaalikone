@@ -24,6 +24,7 @@ import persist.Kysymykset;
 /**
  *
  * @author Tomi Vesanen
+ * @author Mikko Kuusela
  */
 public class MuutaKyselya implements Moduuli {
 
@@ -41,7 +42,7 @@ public class MuutaKyselya implements Moduuli {
 
         //hae parametrina tuotu edellisen kysymyksen vastaus
         String strUusikysymys = request.getParameter("uusikyssari");
-        
+
         //Kysymyksen id
         String poistakysymysid = request.getParameter("kyssaripoistaid");
 
@@ -54,16 +55,16 @@ public class MuutaKyselya implements Moduuli {
          //Tarkastetaan listan pituus
         Query qT = em.createQuery("SELECT COUNT(t) FROM Kysymykset t");
         long max_id = Vaalikone.getLastId(vaalikone, "Kysymykset");
-        
+
        if(poistakysymysid != null){
                   int intkysymysid = Integer.parseInt(poistakysymysid);
-                  //Poistetaan kysymys id perusteella  
+                  //Poistetaan kysymys id perusteella
                 Kysymykset poistakys = em.find(Kysymykset.class, intkysymysid);
                 em.getTransaction().begin();
                  em.remove(poistakys);
                  em.flush();
                 em.getTransaction().commit();
-                
+
                 /*
                 for(int i = intkysymysid + 1; i <= (int)max_id; i++){
                  poistakys = em.find(Kysymykset.class, i);
@@ -74,21 +75,21 @@ public class MuutaKyselya implements Moduuli {
                 em.getTransaction().commit();
                 }
                 */
-                
+
                 if (em.getTransaction()
                         .isActive()) {
                     em.getTransaction().rollback();
                 }
 
                 em.close();
-           
+
                      request.getRequestDispatcher("/muuta_onnistui.jsp")
                     .forward(request, response);
        }
-        
-        
+
+
         if (strUusikysymys == null || strUusikysymys == "" || strUusikysymys == " ") {
-            
+
             request.getRequestDispatcher("/muuta.jsp")
                     .forward(request, response);
 
